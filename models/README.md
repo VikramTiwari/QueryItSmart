@@ -6,7 +6,7 @@
 
 The Public Domain images from Wikimedia Commons are stored in Google Cloud Storage (GCS) and accessible via the following URL.
 
-```
+``` bash
 https://storage.googleapis.com/queryit_smart/wikimedia/images/(key).jpg
 ```
 
@@ -22,7 +22,7 @@ The images should be stored in GCS and should fillfull the following conditions.
 
 Submit job to Google Cloud Machine Learning:
 
-```
+``` bash
 $ JOB_ID=vgg16_vectrize_$(date +%Y%m%d_%H%M%S)
 $ gcloud beta ml jobs submit training ${JOB_ID} \
   --scale-tier=BASIC_GPU \
@@ -35,8 +35,7 @@ $ gcloud beta ml jobs submit training ${JOB_ID} \
   --jpeg_pattern "gs://${BUCKET}/images/"'*.jpg'
 ```
 
-After the job finished, you will get newline-delimited json file contains key and vector attribute for each image.
-You can load load the newline-delimited json file into BigQuery to use image search.
+After the job finished, you will get newline-delimited json file contains key and vector attribute for each image. You can load load the newline-delimited json file into BigQuery to use image search.
 
 ### Change image directory URL
 
@@ -62,7 +61,7 @@ At first you should create word dictionaries about the documents, and convert it
 
 The UDF files are on GCS and can be read public.
 
-```
+``` bash
 gs://queryit_smart/citibike/udf/tensor.js
 gs://queryit_smart/citibike/udf/weights1.js
 gs://queryit_smart/citibike/udf/biases1.js
@@ -71,7 +70,7 @@ gs://queryit_smart/citibike/udf/biases1.js
 
 You can obtain the weights#.js and biases#.js from the training job run on Cloud ML.
 
-```
+``` bash
 → gcloud --project=queryit-smart beta ml jobs submit training citibike_train_$(date +%Y%m%d_%H%M%S) --scale-tier=BASIC_GPU --async --package-path=citibike --module-name=citibike.trainer --staging-bucket=gs://queryit-smart-ml --region=us-central1
 $ JOB_ID=demand_forecast_$(date +%Y%m%d_%H%M%S)
 $ gcloud beta ml jobs submit training ${JOB_ID} \

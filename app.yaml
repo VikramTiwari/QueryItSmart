@@ -1,6 +1,7 @@
 api_version: 1
 runtime: nodejs
 env: flex
+service: 'queryitsmart'
 env_variables:
   API_KEY: ''
   RECAPTCHA_SITE_KEY: ''
